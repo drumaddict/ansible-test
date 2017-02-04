@@ -24,6 +24,13 @@ Vagrant.configure(2) do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
+  #
+  config.vm.define "dev" do
+    config.vm.network :forwarded_port, guest: 80, host: 9999
+    config.vm.network :forwarded_port, guest: 443, host: 4343
+    config.vm.network :forwarded_port, guest: 3000, host: 3333
+    config.vm.network :forwarded_port, guest: 2812, host: 2828
+  end
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -44,14 +51,17 @@ Vagrant.configure(2) do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
-  #
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.gui = true
+    vb.name = 'ks_vm'
+    vb.linked_clone = true
+    # Customize the amount of memory on the VM:
+    vb.memory = "1024"
+    vb.cpus = 2
+
+  end
+
   # View the documentation for the provider you are using for more
   # information on available options.
 
@@ -69,4 +79,8 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get update
   #   sudo apt-get install -y apache2
   # SHELL
+  config.vm.provision "ansible" do |ansible|
+    ansible.verbose = "v"
+    ansible.playbook = "playbook.yml"
+  end
 end
