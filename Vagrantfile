@@ -54,7 +54,7 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
     vb.gui = true
-    vb.name = 'ks_vm'
+    vb.name = 'ks'
     vb.linked_clone = true
     # Customize the amount of memory on the VM:
     vb.memory = "1024"
@@ -79,8 +79,8 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get update
   #   sudo apt-get install -y apache2
   # SHELL
-  config.vm.provision "ansible" do |ansible|
-    ansible.verbose = "v"
-    ansible.playbook = "playbook.yml"
-  end
+  # config.vm.provision "ansible" do |ansible|
+  #   ansible.verbose = "v"
+  #   ansible.playbook = "playbook.yml"
+  # end
 end
